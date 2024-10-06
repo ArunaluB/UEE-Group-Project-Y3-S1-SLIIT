@@ -145,9 +145,7 @@ const Clinic = () => {
     >
       <View style={styles.container}>
         <View style={styles.header}>
-          <Feather name="menu" color="#8B4C70" size={24} />
           <Text style={styles.title}>MomCare</Text>
-          <Feather name="user" color="#8B4C70" size={24} />
         </View>
 
         <Text style={styles.sectionTitle}>Your Clinic Card</Text>
@@ -211,8 +209,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center', 
     marginBottom: 20,
     paddingTop: (StatusBar.currentHeight ?? 0) + 1, // Add padding for the status bar height
   },
