@@ -36,15 +36,15 @@ const Reminders = () => {
       <View style={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity>
-            <View style={styles.menuIcon}>
+            {/* <View style={styles.menuIcon}>
               <View style={styles.menuLine} />
               <View style={styles.menuLine} />
               <View style={styles.menuLine} />
-            </View>
+            </View> */}
           </TouchableOpacity>
           <Text style={styles.title}>MomCare</Text>
           <TouchableOpacity>
-            <View style={styles.profileIcon} />
+            {/* <View style={styles.profileIcon} /> */}
           </TouchableOpacity>
         </View>
 

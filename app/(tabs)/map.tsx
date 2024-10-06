@@ -32,11 +32,8 @@ const Map = () => {
       <ImageBackground source={backgroundImage} style={styles.backgroundImage} resizeMode="cover">
         <View style={styles.content}>
           <View style={styles.header}>
-            <Icon name="menu" color="#8e44ad" size={24} />
             <Text style={styles.title}>MomCare</Text>
-            <View style={styles.profileIcon} />
           </View>
-
           <Text style={styles.sectionTitle}>Add New Visit</Text>
 
           <TextInput
@@ -129,15 +126,16 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center', 
     marginBottom: 10,
-    paddingTop: (StatusBar.currentHeight ?? 0) + 1, 
+    paddingTop: (StatusBar.currentHeight ?? 0) + 1,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#8e44ad',
+    textAlign: 'center',
   },
   profileIcon: {
     width: 30,
@@ -150,6 +148,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#333',
+    textAlign: 'center',
+    paddingTop: 20,
   },
   input: {
     backgroundColor: '#fff2e6',

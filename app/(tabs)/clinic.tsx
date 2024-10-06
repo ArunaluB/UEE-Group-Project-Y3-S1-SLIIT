@@ -1,7 +1,8 @@
 import { StatusBar, StatusBarProps } from 'react-native';
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Dimensions, ImageBackground } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather'; // Import Feather icons
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.8;
@@ -20,7 +21,7 @@ const Clinic = () => {
   ];
 
   const tipData = [
-    { text: 'give to your baby only healthy foods these days', author: 'Dr. Upul chandana' },
+    { text: 'Give your baby only healthy foods these days', author: 'Dr. Upul Chandana' },
     { text: 'Ensure your baby gets enough sleep', author: 'Dr. Jane Smith' },
     { text: 'Regular check-ups are crucial for your baby\'s health', author: 'Dr. Mark Johnson' },
   ];
@@ -29,7 +30,7 @@ const Clinic = () => {
   const tipCarouselRef = useRef<FlatList<any>>(null);
 
   useEffect(() => {
-    let appointmentInterval: string | number | NodeJS.Timeout | undefined, tipInterval: string | number | NodeJS.Timeout | undefined;
+    let appointmentInterval: NodeJS.Timeout | undefined, tipInterval: NodeJS.Timeout | undefined;
 
     if (!isAppointmentAutoPlayPaused) {
       appointmentInterval = setInterval(() => {
@@ -41,7 +42,7 @@ const Clinic = () => {
           });
           setActiveAppointmentIndex(nextIndex);
         }
-      }, 4000); // Change appointment every 4 seconds
+      }, 4000);
     }
 
     if (!isTipAutoPlayPaused) {
@@ -54,7 +55,7 @@ const Clinic = () => {
           });
           setActiveTipIndex(nextIndex);
         }
-      }, 3000); // Change tip every 3 seconds
+      }, 3000);
     }
 
     return () => {
@@ -76,31 +77,49 @@ const Clinic = () => {
   };
 
   const renderAppointmentCard = ({ item }: { item: { title: string; date: string; time: string; doctor: string; location?: string } }) => (
-    <TouchableOpacity 
-      style={[styles.card, { width: CARD_WIDTH }]}
-      onPress={() => setIsAppointmentAutoPlayPaused(!isAppointmentAutoPlayPaused)}
+    <TouchableOpacity
+      style={[styles.card, styles.appointmentCard, { width: CARD_WIDTH }]}
     >
-      <Text style={styles.cardTitle}>{item.title}</Text>
-      <Text style={styles.cardInfo}>{item.date}</Text>
-      <Text style={styles.cardInfo}>{item.time}</Text>
-      <Text style={styles.cardInfo}>{item.doctor}</Text>
-      {item.location && <Text style={styles.cardInfo}>{item.location}</Text>}
-      <Text style={styles.pauseText}>
-        {isAppointmentAutoPlayPaused ? "Tap to resume" : "Tap to pause"}
-      </Text>
+      <View style={styles.cardHeader}>
+        <FontAwesome5 name="calendar-alt" size={24} color="#8B4C70" />
+        <Text style={styles.cardTitle}>{item.title}</Text>
+      </View>
+      <View style={styles.cardContent}>
+        <View style={styles.cardRow}>
+          <FontAwesome5 name="clock" size={16} color="#8B4C70" />
+          <Text style={styles.cardInfo}>{item.date} at {item.time}</Text>
+        </View>
+        <View style={styles.cardRow}>
+          <FontAwesome5 name="user-md" size={16} color="#8B4C70" />
+          <Text style={styles.cardInfo}>{item.doctor}</Text>
+        </View>
+        {item.location && (
+          <View style={styles.cardRow}>
+            <FontAwesome5 name="map-marker-alt" size={16} color="#8B4C70" />
+            <Text style={styles.cardInfo}>{item.location}</Text>
+          </View>
+        )}
+      </View>
     </TouchableOpacity>
   );
 
+
   const renderTipCard = ({ item }: { item: { text: string; author: string } }) => (
-    <TouchableOpacity 
-      style={[styles.tipCard, { width: CARD_WIDTH }]}
+    <TouchableOpacity
+      style={[styles.card, styles.tipCard, { width: CARD_WIDTH }]}
       onPress={() => setIsTipAutoPlayPaused(!isTipAutoPlayPaused)}
     >
-      <Text style={styles.tipText}>{item.text}</Text>
-      <Text style={styles.tipAuthor}>{item.author}</Text>
-      <Text style={styles.pauseText}>
-        {isTipAutoPlayPaused ? "Tap to resume" : "Tap to pause"}
-      </Text>
+      <View style={styles.cardHeader}>
+        <FontAwesome5 name="lightbulb" size={24} color="#8B4C70" />
+        <Text style={styles.cardTitle}>Health Tip</Text>
+      </View>
+      <View style={styles.cardContent}>
+        <Text style={styles.tipText}>"{item.text}"</Text>
+        <View style={styles.cardRow}>
+          <FontAwesome5 name="user-nurse" size={16} color="#8B4C70" />
+          <Text style={styles.tipAuthor}>{item.author}</Text>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 
@@ -119,8 +138,8 @@ const Clinic = () => {
   );
 
   return (
-    <ImageBackground 
-      source={require('./assets/backgroud.png')} 
+    <ImageBackground
+      source={require('./assets/backgroud.png')}
       style={styles.backgroundImage}
       resizeMode="cover"
     >
@@ -129,15 +148,6 @@ const Clinic = () => {
           <Feather name="menu" color="#8B4C70" size={24} />
           <Text style={styles.title}>MomCare</Text>
           <Feather name="user" color="#8B4C70" size={24} />
-        </View>
-
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Search"
-            placeholderTextColor="#999"
-          />
-          <Feather name="search" color="#999" size={20} style={styles.searchIcon} />
         </View>
 
         <Text style={styles.sectionTitle}>Your Clinic Card</Text>
@@ -152,7 +162,7 @@ const Clinic = () => {
           decelerationRate="fast"
           contentContainerStyle={styles.carouselContainer}
           onScroll={handleAppointmentScroll}
-          onScrollToIndexFailed={() => {}}
+          onScrollToIndexFailed={() => { }}
         />
         {renderDotIndicator(activeAppointmentIndex, appointmentData.length)}
 
@@ -168,7 +178,7 @@ const Clinic = () => {
           decelerationRate="fast"
           contentContainerStyle={styles.carouselContainer}
           onScroll={handleTipScroll}
-          onScrollToIndexFailed={() => {}}
+          onScrollToIndexFailed={() => { }}
         />
         {renderDotIndicator(activeTipIndex, tipData.length)}
 
@@ -184,13 +194,6 @@ const Clinic = () => {
           <Text style={styles.buttonText}>Reminder Settings</Text>
         </TouchableOpacity>
 
-        {/* <View style={styles.navbar}>
-          <Feather name="bar-chart-2" color="#8B4C70" size={24} />
-          <Feather name="bell" color="#8B4C70" size={24} />
-          <Feather name="home" color="#8B4C70" size={24} />
-          <Feather name="edit" color="#8B4C70" size={24} />
-          <Feather name="map-pin" color="#8B4C70" size={24} />
-        </View> */}
       </View>
     </ImageBackground>
   );
@@ -205,7 +208,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    // backgroundColor: 'rgba(255, 249, 229, 0.8)', // Semi-transparent background
   },
   header: {
     flexDirection: 'row',
@@ -236,6 +238,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   sectionTitle: {
+    paddingTop: 20,
     fontSize: 18,
     fontWeight: 'bold',
     color: '#8B4C70',
@@ -245,41 +248,62 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   card: {
-    backgroundColor: 'rgba(255, 179, 138, 0.9)',
-    borderRadius: 10,
-    padding: 15,
+    borderRadius: 15,
+    padding: 20,
     marginHorizontal: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  appointmentCard: {
+    backgroundColor: 'rgba(255, 179, 138, 0.9)',
+  },
+  tipCard: {
+    backgroundColor: 'rgba(255, 230, 240, 0.9)',
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
   },
   cardTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 5,
+    color: '#8B4C70',
+    marginLeft: 10,
+  },
+  cardContent: {
+    marginBottom: 10,
+  },
+  cardRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
   },
   cardInfo: {
     fontSize: 14,
     color: '#555',
-  },
-  tipCard: {
-    backgroundColor: 'rgba(255, 179, 138, 0.9)',
-    borderRadius: 10,
-    padding: 15,
-    marginHorizontal: 5,
+    marginLeft: 10,
   },
   tipText: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#333',
-    marginBottom: 5,
+    fontStyle: 'italic',
+    marginBottom: 10,
   },
   tipAuthor: {
-    fontSize: 12,
-    color: '#555',
-    fontStyle: 'italic',
+    fontSize: 14,
+    color: '#8B4C70',
+    fontWeight: 'bold',
+    marginLeft: 10,
   },
   pauseText: {
-    fontSize: 10,
+    fontSize: 12,
     color: '#8B4C70',
-    marginTop: 5,
+    textAlign: 'center',
+    marginTop: 10,
   },
   button: {
     backgroundColor: 'rgba(255, 179, 138, 0.9)',
@@ -291,14 +315,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#333',
     fontWeight: 'bold',
-  },
-  navbar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: 'rgba(255, 215, 229, 0.8)',
-    borderRadius: 20,
-    padding: 15,
-    marginTop: 20,
   },
   dotContainer: {
     flexDirection: 'row',

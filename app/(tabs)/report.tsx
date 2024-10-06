@@ -10,19 +10,19 @@ const report = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <ImageBackground
-        source={require('./assets/backgroud.png')} // Replace this with your image URL or local image path
+        source={require('./assets/backgroud.png')}
         style={styles.backgroundImage}
         resizeMode="cover"
       >
         <View style={styles.header}>
           <TouchableOpacity style={styles.menuButton}>
+            {/* <View style={styles.menuIcon} />
             <View style={styles.menuIcon} />
-            <View style={styles.menuIcon} />
-            <View style={styles.menuIcon} />
+            <View style={styles.menuIcon} /> */}
           </TouchableOpacity>
           <Text style={styles.title}>MomCare</Text>
           <TouchableOpacity style={styles.profileButton}>
-            <View style={styles.profileIcon} />
+            {/* <View style={styles.profileIcon} /> */}
           </TouchableOpacity>
         </View>
 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    paddingTop: (StatusBar.currentHeight ?? 0) + 16, // Add padding for the status bar height
+    paddingTop: (StatusBar.currentHeight ?? 0) + 16,
   },
   menuButton: {
     width: 24,
@@ -103,10 +103,12 @@ const styles = StyleSheet.create({
     color: '#C41E3A',
   },
   searchText: {
-    color: '#B71C6F',
-    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#8B4C70',
+    marginBottom: 10,
     paddingTop: 50,
-    fontSize: 15,
+    textAlign: 'center',
   },
   formContainer: {
     paddingTop: 50,
