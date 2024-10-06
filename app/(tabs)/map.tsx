@@ -1,35 +1,41 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, ImageBackground } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ImageBackground } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-// Local image path for the background image
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { StatusBar, StatusBarProps } from 'react-native';
 const backgroundImage = require('./assets/backgroud.png');
 
-const map = () => {
+const Map = () => {
   const [doctorName, setDoctorName] = useState('');
   const [clinicName, setClinicName] = useState('');
   const [time, setTime] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+
+  const showTimePicker = () => {
+    setTimePickerVisibility(true);
+  };
+
+  const hideTimePicker = () => {
+    setTimePickerVisibility(false);
+  };
+
+  const handleTimeConfirm = (date: { toLocaleTimeString: (arg0: never[], arg1: { hour: string; minute: string; }) => any; }) => {
+    const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    setTime(formattedTime);
+    hideTimePicker();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Set the background image using ImageBackground */}
       <ImageBackground source={backgroundImage} style={styles.backgroundImage} resizeMode="cover">
-        <ScrollView contentContainerStyle={styles.scrollView}>
+        <View style={styles.content}>
           <View style={styles.header}>
             <Icon name="menu" color="#8e44ad" size={24} />
             <Text style={styles.title}>MomCare</Text>
             <View style={styles.profileIcon} />
           </View>
-
-          {/* <View style={styles.searchBar}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search"
-              placeholderTextColor="#999"
-            />
-          </View> */}
 
           <Text style={styles.sectionTitle}>Add New Visit</Text>
 
@@ -47,11 +53,20 @@ const map = () => {
             onChangeText={setClinicName}
           />
 
-          <TextInput
-            style={styles.input}
-            placeholder="00:00"
-            value={time}
-            onChangeText={setTime}
+          <TouchableOpacity onPress={showTimePicker}>
+            <TextInput
+              style={styles.input}
+              placeholder="Select Time"
+              value={time}
+              editable={false}
+            />
+          </TouchableOpacity>
+
+          <DateTimePickerModal
+            isVisible={isTimePickerVisible}
+            mode="time"
+            onConfirm={handleTimeConfirm}
+            onCancel={hideTimePicker}
           />
 
           <Text style={styles.label}>Date</Text>
@@ -82,9 +97,9 @@ const map = () => {
                 textDayFontWeight: '300',
                 textMonthFontWeight: 'bold',
                 textDayHeaderFontWeight: '300',
-                textDayFontSize: 16,
-                textMonthFontSize: 16,
-                textDayHeaderFontSize: 16,
+                textDayFontSize: 12,
+                textMonthFontSize: 12,
+                textDayHeaderFontSize: 12,
               }}
             />
           </View>
@@ -92,7 +107,7 @@ const map = () => {
           <TouchableOpacity style={styles.addButton}>
             <Text style={styles.addButtonText}>Add New Visit</Text>
           </TouchableOpacity>
-        </ScrollView>
+        </View>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -107,14 +122,17 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  scrollView: {
+  content: {
+    flex: 1,
     padding: 20,
+    justifyContent: 'space-between',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
+    paddingTop: (StatusBar.currentHeight ?? 0) + 1, 
   },
   title: {
     fontSize: 24,
@@ -127,26 +145,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#8e44ad',
     borderRadius: 15,
   },
-  searchBar: {
-    backgroundColor: '#fff',
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    marginBottom: 20,
-  },
-  searchInput: {
-    height: 40,
-  },
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 15,
+    marginBottom: 10,
     color: '#333',
   },
   input: {
     backgroundColor: '#fff2e6',
     borderRadius: 10,
     padding: 10,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   label: {
     fontSize: 16,
@@ -154,14 +163,12 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   calendarContainer: {
-    marginTop: 20,
-    marginBottom: 20,
-    padding: 10,
+    flex: 1,
+    marginVertical: 10,
     backgroundColor: '#fff',
     borderRadius: 10,
   },
   calendar: {
-    width: '100%',
     borderRadius: 10,
   },
   addButton: {
@@ -169,7 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 10,
   },
   addButtonText: {
     color: '#fff',
@@ -178,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default map;
+export default Map;

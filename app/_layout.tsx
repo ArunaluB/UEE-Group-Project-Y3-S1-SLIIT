@@ -38,9 +38,9 @@ export default function RootLayout() {
     //   <Text>hello</Text>
     // </View>
     <>
-    <Text>Header</Text>
+    
     <Slot />
-    <Text>Footer</Text>
+    
     </>
   );
 }

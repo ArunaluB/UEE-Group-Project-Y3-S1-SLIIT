@@ -1,3 +1,4 @@
+import { StatusBar, StatusBarProps } from 'react-native';
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Dimensions, ImageBackground } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather'; // Import Feather icons
@@ -211,6 +212,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
+    paddingTop: (StatusBar.currentHeight ?? 0) + 1, // Add padding for the status bar height
   },
   title: {
     fontSize: 24,

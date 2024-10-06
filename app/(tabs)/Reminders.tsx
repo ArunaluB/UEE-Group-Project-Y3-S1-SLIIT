@@ -1,38 +1,39 @@
-
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Switch, TextInput, TouchableOpacity } from 'react-native';
-import { BarChart2, Bell, Home, PenLine, MapPin } from 'lucide-react';
+import { View, Text, StyleSheet, Switch, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import { BarChart2, Bell, Home, PenLine, MapPin } from 'lucide-react-native';
+import { StatusBar, StatusBarProps } from 'react-native';
 
 interface AppointmentItemProps {
   title: string;
   date: string;
-  location: string;
 }
-
-const AppointmentItem: React.FC<AppointmentItemProps> = ({ title, date, location }) => (
-  <View style={styles.appointmentItem}>
-    <Text style={styles.appointmentTitle}>{title}</Text>
-    <Text style={styles.appointmentDate}>{date}</Text>
-    <Text style={styles.appointmentLocation}>{location}</Text>
-    <Switch style={styles.switch} />
-  </View>
-);
 
 interface CustomizationItemProps {
   title: string;
 }
 
+const AppointmentItem: React.FC<AppointmentItemProps> = ({ title, date }) => (
+  <View style={styles.appointmentItem}>
+    <Text style={styles.appointmentTitle}>{title}</Text>
+    <Text style={styles.appointmentDate}>{date}</Text>
+    <Switch style={styles.switch} trackColor={{ false: "#FAE3E3", true: "#C41E3A" }} />
+  </View>
+);
+
 const CustomizationItem: React.FC<CustomizationItemProps> = ({ title }) => (
   <View style={styles.customizationItem}>
     <Text style={styles.customizationTitle}>{title}</Text>
-    <Switch style={styles.switch} />
+    <Switch style={styles.switch} trackColor={{ false: "#FAE3E3", true: "#C41E3A" }} />
   </View>
 );
 
 const Reminders = () => {
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <ImageBackground
+      source={require('./assets/backgroud.png')}
+      style={styles.container}
+    >
+      <View style={styles.content}>
         <View style={styles.header}>
           <TouchableOpacity>
             <View style={styles.menuIcon}>
@@ -47,72 +48,75 @@ const Reminders = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.searchBar}>
+        {/* <View style={styles.searchBar}>
           <TextInput 
             style={styles.searchInput}
             placeholder="Search"
+            placeholderTextColor="#C41E3A"
+          />
+        </View> */}
+
+        <Text style={styles.sectionTitle}>Reminder Settings</Text>
+
+        <View style={styles.appointmentsContainer}>
+          <Text style={styles.subTitle}>Upcoming Appointments</Text>
+          <AppointmentItem
+            title="Prenatal Checkup"
+            date="Sept 15, 10:30 AM"
+          />
+          <AppointmentItem
+            title="Baby Vaccination"
+            date="Sept 18, 2:00 PM"
+          />
+          <AppointmentItem
+            title="Baby Vaccination"
+            date="Sept 18, 2:00 PM"
           />
         </View>
 
-        <Text style={styles.sectionTitle}>Reminder Settings</Text>
-        <Text style={styles.subTitle}>Upcoming Appointments</Text>
-
-        <AppointmentItem 
-          title="Prenatal Checkup"
-          date="Sept 15, 2024, 10:30 AM"
-          location="Dr. John Doe, City Clinic"
-        />
-        <AppointmentItem 
-          title="Baby Vaccination"
-          date="Sept 18, 2024, 2:00 PM"
-          location="Pediatric Health Center"
-        />
-        <AppointmentItem 
-          title="Routine Ultrasound"
-          date="Sept 22, 2024, 9:00 AM"
-          location="Dr. Sarah Smith, Maternity"
-        />
-
-        <Text style={styles.subTitle}>Customized reminder settings</Text>
         <View style={styles.customizationContainer}>
-          <CustomizationItem title="Send to the mobile number" />
-          <CustomizationItem title="Send to the email" />
-          <CustomizationItem title="Send mobile notification" />
+          <Text style={styles.subTitle}>Customized reminder settings</Text>
+          <CustomizationItem title="Send to mobile" />
+          <CustomizationItem title="Send to email" />
+          <CustomizationItem title="Mobile notification" />
         </View>
-      </ScrollView>
+      </View>
 
-      {/* <View style={styles.navbar}>
-        <TouchableOpacity style={styles.navItem}>
-          <BarChart2 size={24} color="#000" />
+      {/* <View style={styles.footer}>
+        <TouchableOpacity style={styles.footerItem}>
+          <BarChart2 color="#C41E3A" size={24} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Bell size={24} color="#000" />
+        <TouchableOpacity style={styles.footerItem}>
+          <Bell color="#C41E3A" size={24} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Home size={24} color="#000" />
+        <TouchableOpacity style={styles.footerItem}>
+          <Home color="#C41E3A" size={24} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <PenLine size={24} color="#000" />
+        <TouchableOpacity style={styles.footerItem}>
+          <PenLine color="#C41E3A" size={24} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <MapPin size={24} color="#000" />
+        <TouchableOpacity style={styles.footerItem}>
+          <MapPin color="#C41E3A" size={24} />
         </TouchableOpacity>
       </View> */}
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+  },
+  content: {
+    flex: 1,
+    padding: 16,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#FFF',
+    marginBottom: 16,
+    paddingTop: (StatusBar.currentHeight ?? 0) + 1, // Add padding for the status bar height
   },
   menuIcon: {
     width: 24,
@@ -131,55 +135,62 @@ const styles = StyleSheet.create({
   profileIcon: {
     width: 24,
     height: 24,
-    backgroundColor: '#ccc',
+    backgroundColor: '#C41E3A',
     borderRadius: 12,
   },
   searchBar: {
-    margin: 16,
-    backgroundColor: '#FAE3E3',
+    backgroundColor: 'rgba(250, 227, 227, 0.8)',
     borderRadius: 20,
     padding: 8,
+    marginBottom: 16,
   },
   searchInput: {
     fontSize: 16,
+    color: '#C41E3A',
   },
   sectionTitle: {
-    fontSize: 20,
+    paddingTop: 20,
+    fontSize: 22,
     fontWeight: 'bold',
-    margin: 16,
+    marginBottom: 16,
     color: '#C41E3A',
+    textAlign: 'center',
   },
   subTitle: {
+    paddingTop: 20,
     fontSize: 18,
     fontWeight: 'bold',
-    marginHorizontal: 16,
-    marginTop: 16,
+    marginBottom: 8,
     color: '#C41E3A',
   },
+  appointmentsContainer: {
+    marginBottom: 16,
+  },
   appointmentItem: {
-    backgroundColor: '#F5D0A9',
-    margin: 16,
-    padding: 16,
-    borderRadius: 8,
+
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'rgba(245, 208, 169, 0.8)',
+    padding: 12,
+    borderRadius: 20,
+    marginBottom: 8,
   },
   appointmentTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#C41E3A',
+    flex: 1,
   },
   appointmentDate: {
     fontSize: 14,
-    color: '#000',
-  },
-  appointmentLocation: {
-    fontSize: 14,
-    color: '#000',
+    color: '#333',
+    marginRight: 8,
   },
   customizationContainer: {
-    backgroundColor: '#F5D0A9',
-    margin: 16,
+    backgroundColor: 'rgba(245, 208, 169, 0.8)',
     padding: 16,
-    borderRadius: 8,
+    borderRadius: 20,
   },
   customizationItem: {
     flexDirection: 'row',
@@ -189,19 +200,20 @@ const styles = StyleSheet.create({
   },
   customizationTitle: {
     fontSize: 16,
-    color: '#000',
+    color: '#C41E3A',
   },
   switch: {
     transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
   },
-  navbar: {
+  footer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 16,
-    backgroundColor: '#FFD1DC',
-  },
-  navItem: {
     alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    paddingVertical: 8,
+  },
+  footerItem: {
+    padding: 8,
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, ImageBackground, StatusBar } from 'react-native';
 import { Bell, Home, PenSquare, MapPin } from 'lucide-react';
 
 const report = () => {
@@ -8,60 +8,50 @@ const report = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.menuButton}>
-          <View style={styles.menuIcon} />
-          <View style={styles.menuIcon} />
-          <View style={styles.menuIcon} />
-        </TouchableOpacity>
-        <Text style={styles.title}>MomCare</Text>
-        <TouchableOpacity style={styles.profileButton}>
-          <View style={styles.profileIcon} />
-        </TouchableOpacity>
-      </View>
+      <StatusBar barStyle="dark-content" />
+      <ImageBackground
+        source={require('./assets/backgroud.png')} // Replace this with your image URL or local image path
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.menuButton}>
+            <View style={styles.menuIcon} />
+            <View style={styles.menuIcon} />
+            <View style={styles.menuIcon} />
+          </TouchableOpacity>
+          <Text style={styles.title}>MomCare</Text>
+          <TouchableOpacity style={styles.profileButton}>
+            <View style={styles.profileIcon} />
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.searchBar}>
         <Text style={styles.searchText}>Add Health tips note</Text>
-      </View>
 
-      <View style={styles.formContainer}>
-        <Text style={styles.label}>Enter Doctor Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="doctor name"
-          value={doctorName}
-          onChangeText={setDoctorName}
-        />
+        <View style={styles.formContainer}>
+          <Text style={styles.label}>Enter Doctor Name</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="doctor name"
+            value={doctorName}
+            onChangeText={setDoctorName}
+          />
 
-        <Text style={styles.label}>Enter Health Tips</Text>
-        <TextInput
-          style={[styles.input, styles.textArea]}
-          placeholder="Health Tips from Doctor"
-          multiline
-          numberOfLines={4}
-          value={healthTips}
-          onChangeText={setHealthTips}
-        />
+          <Text style={styles.label}>Enter Health Tips</Text>
+          <TextInput
+            style={[styles.input, styles.textArea]}
+            placeholder="Health Tips from Doctor"
+            multiline
+            numberOfLines={4}
+            value={healthTips}
+            onChangeText={setHealthTips}
+          />
 
-        <TouchableOpacity style={styles.addButton}>
-          <Text style={styles.addButtonText}>Add Health Tips Note</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* <View style={styles.navBar}>
-        <TouchableOpacity style={styles.navItem}>
-          <Bell size={24} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Home size={24} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <PenSquare size={24} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <MapPin size={24} color="#000" />
-        </TouchableOpacity>
-      </View> */}
+          <TouchableOpacity style={styles.addButton}>
+            <Text style={styles.addButtonText}>Add Health Tips Note</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -69,13 +59,16 @@ const report = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF',
+  },
+  backgroundImage: {
+    flex: 1,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
+    paddingTop: (StatusBar.currentHeight ?? 0) + 16, // Add padding for the status bar height
   },
   menuButton: {
     width: 24,
@@ -103,17 +96,20 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: '#DDD',
   },
-  searchBar: {
-    backgroundColor: '#FDE8EF',
-    padding: 12,
-    margin: 16,
-    borderRadius: 25,
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#C41E3A',
   },
   searchText: {
     color: '#B71C6F',
     textAlign: 'center',
+    paddingTop: 50,
+    fontSize: 15,
   },
   formContainer: {
+    paddingTop: 50,
     padding: 16,
   },
   label: {
