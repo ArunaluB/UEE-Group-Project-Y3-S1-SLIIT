@@ -81,24 +81,6 @@ const Reminders = () => {
           <CustomizationItem title="Mobile notification" />
         </View>
       </View>
-
-      {/* <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerItem}>
-          <BarChart2 color="#C41E3A" size={24} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.footerItem}>
-          <Bell color="#C41E3A" size={24} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.footerItem}>
-          <Home color="#C41E3A" size={24} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.footerItem}>
-          <PenLine color="#C41E3A" size={24} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.footerItem}>
-          <MapPin color="#C41E3A" size={24} />
-        </TouchableOpacity>
-      </View> */}
     </ImageBackground>
   );
 };
